@@ -41,26 +41,23 @@
   <button id="nextBtn">下一张</button>
 
   <script>
-    const imgElement = document.getElementById("randomImage");
-    const apiUrl = "/api/random"; // 这里访问 Vercel 的 API
-
-    // 获取随机图片
-    async function showRandomImage() {
-      try {
-        const response = await fetch(apiUrl);
-        if (!response.ok) throw new Error("网络错误");
-        const data = await response.json();
-        imgElement.src = data.image; // API 返回的路径
-      } catch (err) {
-        console.error(err);
-        imgElement.alt = "图片加载失败";
-      }
+    const totalImages = 10; // 图片数量
+    const images = [];
+    for (let i = 1; i <= totalImages; i++) {
+      images.push(`images/${i}.png`);
     }
 
-    // 页面加载时显示一张随机图片
+    const imgElement = document.getElementById("randomImage");
+
+    function showRandomImage() {
+      const randomIndex = Math.floor(Math.random() * images.length);
+      imgElement.src = images[randomIndex];
+    }
+
+    // 页面加载时显示随机图片
     showRandomImage();
 
-    // 点击按钮切换图片
+    // 点击按钮切换
     document.getElementById("nextBtn").addEventListener("click", showRandomImage);
   </script>
 </body>
