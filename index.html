@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>随机图片展示</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
+    }
+    img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+  <img id="randomImage" src="" alt="随机图片">
+  <script>
+    // 自动扫描 images 文件夹里的图片文件名
+    const images = [
+      "images/占位.png"  // 这里请替换成你的 PNG 文件名
+      // 如果有多张图片，依次添加：
+      // "images/1.png",
+      // "images/2.png"
+    ];
+
+    const randomIndex = Math.floor(Math.random() * images.length);
+    document.getElementById("randomImage").src = images[randomIndex];
+  </script>
+</body>
+</html>
