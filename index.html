@@ -6,27 +6,29 @@
   <title>随机图片展示</title>
   <style>
     body {
+      margin: 0;
+      padding: 0;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      background-color: #f0f0f0;
-      font-family: sans-serif;
-      flex-direction: column;
+      min-height: 100vh;
+      background: #f0f0f0;
+      font-family: Arial, sans-serif;
     }
     img {
-      max-width: 90%;
-      max-height: 80%;
-      border: 2px solid #ccc;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      max-width: 95%;
+      max-height: 80vh;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      background: #fff;
     }
     button {
       margin-top: 20px;
-      padding: 10px 20px;
+      padding: 12px 24px;
       font-size: 16px;
       border: none;
-      border-radius: 5px;
+      border-radius: 6px;
       background-color: #4CAF50;
       color: white;
       cursor: pointer;
@@ -41,24 +43,31 @@
   <button id="nextBtn">下一张</button>
 
   <script>
-    const totalImages = 10; // 图片数量
+    const totalImages = 10; // 你的图片数量
     const images = [];
     for (let i = 1; i <= totalImages; i++) {
-      images.push(`images/${i}.png`);
+      // 改成从根目录绝对路径取图片
+      images.push(`/images/${i}.png`);
     }
 
     const imgElement = document.getElementById("randomImage");
 
     function showRandomImage() {
       const randomIndex = Math.floor(Math.random() * images.length);
-      imgElement.src = images[randomIndex];
+      imgElement.src = images[randomIndex] + "?t=" + new Date().getTime(); 
+      // 加时间戳防止手机缓存旧图
     }
 
-    // 页面加载时显示随机图片
+    // 页面加载时先显示一张
     showRandomImage();
 
-    // 点击按钮切换
+    // 点击按钮切换图片
     document.getElementById("nextBtn").addEventListener("click", showRandomImage);
+
+    // 图片加载失败时提示
+    imgElement.onerror = () => {
+      imgElement.alt = "图片加载失败，请检查路径或压缩图片大小";
+    };
   </script>
 </body>
 </html>
