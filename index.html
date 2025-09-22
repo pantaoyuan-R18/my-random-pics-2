@@ -23,16 +23,14 @@
 <body>
   <img id="randomImage" src="" alt="随机图片">
   <script>
-    // 自动扫描 images 文件夹里的图片文件名
-    const images = [
-      "images/占位.png"  // 这里请替换成你的 PNG 文件名
-      // 如果有多张图片，依次添加：
-      // "images/1.png",
-      // "images/2.png"
-    ];
-
-    const randomIndex = Math.floor(Math.random() * images.length);
-    document.getElementById("randomImage").src = images[randomIndex];
+    fetch('images.json')
+      .then(res => res.json())
+      .then(files => {
+        const images = files.map(name => 'images/' + name);
+        const randomIndex = Math.floor(Math.random() * images.length);
+        document.getElementById('randomImage').src = images[randomIndex];
+      })
+      .catch(err => console.error(err));
   </script>
 </body>
 </html>
