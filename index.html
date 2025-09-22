@@ -1,123 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Random Image Viewer</title>
+  <title>随机 PNG 图片展示</title>
   <style>
     body {
-      margin: 0;
-      height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      background: #111;
-      font-family: Arial, sans-serif;
-      overflow: hidden;
+      height: 100vh;
+      background-color: #111; /* 深色背景更显高级 */
+      font-family: sans-serif;
+      flex-direction: column;
+      margin: 0;
     }
-
-    /* 背景模糊层 */
-    .background {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background-size: cover;
-      background-position: center;
-      filter: blur(20px) brightness(0.6);
-      transform: scale(1.1);
-      z-index: -1;
-      transition: background-image 0.6s ease;
-    }
-
-    .viewer {
-      position: relative;
-      max-width: 90vw;
-      max-height: 80vh;
-      overflow: hidden;
-      border-radius: 15px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-    }
-
-    .viewer img {
-      width: 100%;
-      height: auto;
-      display: block;
+    img {
+      max-width: 90%;
+      max-height: 80%;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
       opacity: 0;
-      transition: opacity 0.6s ease;
+      transition: opacity 0.6s ease-in-out; /* 渐变过渡 */
     }
-
-    .viewer img.show {
-      opacity: 1;
-    }
-
-    .btn {
-      position: absolute;
-      bottom: 15px;
-      right: 15px;
-      padding: 10px 20px;
+    button {
+      margin-top: 20px;
+      padding: 12px 24px;
       font-size: 16px;
-      background: rgba(255, 255, 255, 0.8);
       border: none;
       border-radius: 8px;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: white;
       cursor: pointer;
-      transition: background 0.3s;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s ease;
     }
-
-    .btn:hover {
-      background: rgba(255, 255, 255, 1);
+    button:hover {
+      transform: scale(1.05);
     }
   </style>
 </head>
 <body>
-  <div class="background"></div>
-
-  <div class="viewer">
-    <img id="mainImage" src="" alt="Random">
-    <button class="btn" id="nextBtn">Next</button>
-  </div>
+  <img id="randomImage" src="" alt="随机图片">
+  <button id="nextBtn">下一张</button>
 
   <script>
-    // 你本地或项目里放的图片
-    const images = [
-      'images/1.jpg',
-      'images/2.jpg',
-      'images/3.jpg',
-      'images/4.jpg',
-      'images/5.jpg'
-    ];
+    const totalImages = 10;  // PNG 图片总数
+    const images = [];
+    for (let i = 1; i <= totalImages; i++) {
+      images.push(`/images/${i}.png`); // ✅ 改为 PNG
+    }
 
-    const mainImage = document.getElementById('mainImage');
-    const background = document.querySelector('.background');
-    const nextBtn = document.getElementById('nextBtn');
-
-    let currentIndex = -1;
+    const imgElement = document.getElementById("randomImage");
 
     function showRandomImage() {
-      let newIndex;
-      do {
-        newIndex = Math.floor(Math.random() * images.length);
-      } while (newIndex === currentIndex);
+      const randomIndex = Math.floor(Math.random() * images.length);
+      const newImage = images[randomIndex];
 
-      currentIndex = newIndex;
-      const newSrc = images[currentIndex];
+      // 先隐藏
+      imgElement.style.opacity = 0;
 
-      // 预加载新图片
-      const img = new Image();
-      img.src = newSrc;
-      img.onload = () => {
-        mainImage.classList.remove('show'); // 先淡出旧图
-        setTimeout(() => {
-          mainImage.src = newSrc; // 换图
-          background.style.backgroundImage = `url(${newSrc})`; // 背景同步
-          mainImage.classList.add('show'); // 淡入新图
-        }, 300);
+      // 等图片加载完成后再淡入
+      const tempImg = new Image();
+      tempImg.src = newImage;
+      tempImg.onload = () => {
+        imgElement.src = newImage;
+        imgElement.style.opacity = 1;
       };
     }
 
-    // 初始加载
+    // 页面加载时先显示一张
     showRandomImage();
 
-    nextBtn.addEventListener('click', showRandomImage);
+    // 点击按钮切换图片
+    document.getElementById("nextBtn").addEventListener("click", showRandomImage);
   </script>
 </body>
 </html>
