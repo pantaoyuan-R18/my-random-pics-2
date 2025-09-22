@@ -12,29 +12,54 @@
       height: 100vh;
       background-color: #f0f0f0;
       font-family: sans-serif;
+      flex-direction: column;
     }
     img {
       max-width: 90%;
-      max-height: 90%;
+      max-height: 80%;
       border: 2px solid #ccc;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
     }
   </style>
 </head>
 <body>
   <img id="randomImage" src="" alt="随机图片">
-  <script>
-    const totalImages = 10;  // 总共 10 张图片
-    const images = [];
+  <button id="nextBtn">下一张</button>
 
+  <script>
+    const totalImages = 10;  // 图片数量
+    const images = [];
     for (let i = 1; i <= totalImages; i++) {
       images.push(`images/${i}.png`);
     }
 
     const imgElement = document.getElementById("randomImage");
-    const randomIndex = Math.floor(Math.random() * images.length);
-    imgElement.src = images[randomIndex];
+
+    // 显示随机图片
+    function showRandomImage() {
+      const randomIndex = Math.floor(Math.random() * images.length);
+      imgElement.src = images[randomIndex];
+    }
+
+    // 页面加载时先显示一张
+    showRandomImage();
+
+    // 点击按钮切换图片
+    document.getElementById("nextBtn").addEventListener("click", showRandomImage);
   </script>
 </body>
 </html>
