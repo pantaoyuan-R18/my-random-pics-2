@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Random Image Redirect</title>
+  <script>
+    const totalImages = 10;
+    const randomIndex = Math.floor(Math.random() * totalImages) + 1;
+    const imgUrl = `images/${randomIndex}.png`;
+    // 跳转到随机图片
+    window.location.href = imgUrl;
+  </script>
+</head>
+<body>
+  正在跳转到随机图片...
+</body>
+</html>
