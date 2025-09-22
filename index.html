@@ -2,6 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>随机图片展示</title>
   <style>
     body {
@@ -9,28 +10,31 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      margin: 0;
       background-color: #f0f0f0;
+      font-family: sans-serif;
     }
     img {
       max-width: 90%;
       max-height: 90%;
+      border: 2px solid #ccc;
       border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
     }
   </style>
 </head>
 <body>
   <img id="randomImage" src="" alt="随机图片">
   <script>
-    fetch('images.json')
-      .then(res => res.json())
-      .then(files => {
-        const images = files.map(name => 'images/' + name);
-        const randomIndex = Math.floor(Math.random() * images.length);
-        document.getElementById('randomImage').src = images[randomIndex];
-      })
-      .catch(err => console.error(err));
+    const totalImages = 10;  // 总共 10 张图片
+    const images = [];
+
+    for (let i = 1; i <= totalImages; i++) {
+      images.push(`images/${i}.png`);
+    }
+
+    const imgElement = document.getElementById("randomImage");
+    const randomIndex = Math.floor(Math.random() * images.length);
+    imgElement.src = images[randomIndex];
   </script>
 </body>
 </html>
